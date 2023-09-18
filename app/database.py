@@ -15,6 +15,10 @@ class DatabaseConnection:
         if cls._connection is None:
             cls._connection = mysql.connector.connect(**cls._credenciales)
         return cls._connection
+    
+    @classmethod
+    def set_config(cls, config):
+        cls._config = config
 
     @classmethod
     def execute_query(cls, query, params=None):
