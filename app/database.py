@@ -57,16 +57,19 @@ class DatabaseConnection:
             `apellido` VARCHAR(45)  NOT NULL,
             `loggin` VARCHAR(45) NOT NULL,
             `cumpleaños` DATE NOT NULL,
+            `foto_perfil` VARCHAR(150) NULL,
             PRIMARY KEY (`id_usuario`))
             ENGINE = InnoDB; """
         create_table_servidores = """CREATE TABLE IF NOT EXISTS `servidores` (
             `id_servidor` INT NOT NULL AUTO_INCREMENT,
             `nombre` VARCHAR(45) NOT NULL,
+            `descripcion` VARCHAR(150) NULL,
             PRIMARY KEY (`id_servidor`))
             ENGINE = InnoDB; """
         create_table_canales = """CREATE TABLE IF NOT EXISTS `canales` (
             `id_canal` INT NOT NULL AUTO_INCREMENT,
             `nombre` VARCHAR(45) NOT NULL,
+            `descripcion` VARCHAR(150) NULL,
             `servidor` INT NOT NULL,
             PRIMARY KEY (`id_canal`),
             CONSTRAINT `Servidor_fk`
@@ -108,20 +111,6 @@ class DatabaseConnection:
                 ON DELETE CASCADE
                 ON UPDATE CASCADE)
             ENGINE = InnoDB; """
-        create_table_usuarios_canales = """CREATE TABLE IF NOT EXISTS `usuarios_canales` (
-            `usuario` INT NOT NULL,
-            `canal` INT NOT NULL,
-            CONSTRAINT `fk_Usuario_Canales_Usuario`
-                FOREIGN KEY (`usuario`)
-                REFERENCES `usuarios` (`id_usuario`)
-                ON DELETE CASCADE
-                ON UPDATE CASCADE,
-            CONSTRAINT `fk_Usuario_Canales_Canal`
-                FOREIGN KEY (`canal`)
-                REFERENCES `canales` (`id_canal`)
-                ON DELETE CASCADE
-                ON UPDATE CASCADE)
-            ENGINE = InnoDB; """
         try:
             db_connection = mysql.connector.connect(user=cls._credenciales["user"],
                                         password=cls._credenciales["password"],
@@ -134,7 +123,6 @@ class DatabaseConnection:
             db_cursor.execute(create_table_canales)
             db_cursor.execute(create_table_chats)
             db_cursor.execute(create_table_usuarios_servidores)
-            db_cursor.execute(create_table_usuarios_canales)
             db_connection.commit()
             db_connection.close()
         except errors.DatabaseError as error:
