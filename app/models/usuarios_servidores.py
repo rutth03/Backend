@@ -4,6 +4,12 @@ class RelationUserServer:
     def __init__(self, usuario=None, servidor=None):
         self.usuario = usuario
         self.servidor = servidor
+    
+    def serializar(self):
+        return {
+        "usuario": self.usuario,
+        "servidor": self.servidor,
+        }
 
     @classmethod
     def create_relation(cls, relation):

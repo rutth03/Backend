@@ -3,6 +3,5 @@ from app.database import DatabaseConnection
 
 app = init_app()
 if __name__ == "__main__":
-    db = DatabaseConnection()
-    db.create_if_not_exists()
+    db=DatabaseConnection.create_if_not_exists()
     app.run()

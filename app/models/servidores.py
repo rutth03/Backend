@@ -1,16 +1,24 @@
 from database import DatabaseConnection
 
 class Server:
-    def __init__(self, id_servidor = None, nombre = None):
+    def __init__(self, id_servidor = None, nombre = None, descripcion = None):
         self.id_servidor = id_servidor
         self.nombre = nombre
+        self.descripcion = descripcion
+
+    def serializar(self):
+        return {
+            "id_servidor": self.id_servidor,
+            "nombre": self.nombre,
+            "descripción": self.descripcion
+        }
 
     @classmethod
     def create(cls, server):
         """ Crea un nuevo servidor """
 
-        query = """ INSERT INTO servidor_app.servidores (nombre) VALUES (%s) """
-        params = (server.nombre)
+        query = """ INSERT INTO servidor_app.servidores (nombre, descripcion) VALUES (%s) """
+        params = (server.nombre, server.descripcion)
         DatabaseConnection.execute_query(query, params)
 
     @classmethod

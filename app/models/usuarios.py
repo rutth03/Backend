@@ -1,7 +1,8 @@
 from database import DatabaseConnection
 
 class User:
-    def __init__(self, id_usuario = None, email = None, contraseña = None, nombre = None,  apellido = None,  loggin = None, cumpleaños = None):
+    def __init__(self, id_usuario = None, email = None, contraseña = None, nombre = None,  apellido = None,  
+                loggin = None, cumpleaños = None, foto_perfil = None):
         self.id_usuario = id_usuario, 
         self.email = email, 
         self.contraseña = contraseña, 
@@ -9,7 +10,20 @@ class User:
         self.apellido = apellido,  
         self.loggin = loggin, 
         self.cumpleaños = cumpleaños
+        self.foto_perfil = foto_perfil
 
+    def serializar(self):
+        return {
+            "id_usuario": self.id_usuario,
+            "email": self.email,
+            "contraseña": self.contraseña,
+            "nombre": self.nombre,
+            "apellido": self.apellido,
+            "loggin": self.loggin,
+            "cumpleaños": self.cumpleaños,
+            "foto de Perfil": self.foto_perfil
+        }
+    
     @classmethod
     def create(cls, user):
         """ Crear nuevo usuario """

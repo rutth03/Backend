@@ -8,6 +8,16 @@ class Chats:
         self.hora = hora
         self.usuario = usuario
         self.canal = canal
+    
+    def serializar(self):
+        return {
+            "id_mensaje": self.id_mensaje,
+            "mensaje": self.mensaje,
+            "fecha": self.fecha,
+            "hora": self.hora,
+            "usuario": self.usuario,
+            "canal": self.canal,
+        }
 
     @classmethod
     def get_all_messages(cls, chat):
