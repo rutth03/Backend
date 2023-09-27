@@ -1,14 +1,14 @@
-from database import DatabaseConnection
+from ..database import DatabaseConnection
 
 class User:
     def __init__(self, id_usuario = None, email = None, contraseña = None, nombre = None,  apellido = None,  
                 loggin = None, cumpleaños = None, foto_perfil = None):
-        self.id_usuario = id_usuario, 
-        self.email = email, 
-        self.contraseña = contraseña, 
-        self.nombre = nombre,  
-        self.apellido = apellido,  
-        self.loggin = loggin, 
+        self.id_usuario = id_usuario 
+        self.email = email 
+        self.contraseña = contraseña 
+        self.nombre = nombre  
+        self.apellido = apellido  
+        self.loggin = loggin 
         self.cumpleaños = cumpleaños
         self.foto_perfil = foto_perfil
 
@@ -47,8 +47,19 @@ class User:
         """ Eliminar un usuario """
 
         query = "DELETE FROM servidor_app.usuarios WHERE id_usuario = %s"
-        params = user.id_usuario,
+        params = (user.id_usuario,)
         DatabaseConnection.execute_query(query, params)
+
+    @classmethod
+    def exists(cls,user):
+        """ """
+
+        query="SELECT id_usuario FROM servidor_app.usuarios WHERE id_usuario = %s"
+        params = (user.id_usuario,)
+        resultado=DatabaseConnection.fetch_one(query,params=params)
+        if resultado is None:
+            return False
+        return True
 
     @classmethod
     def exist_email(cls, user):
@@ -103,4 +114,7 @@ class User:
         INNER JOIN servidor_app.usuarios ON usuarios.id_usuario = usuarios_servidores.usuario WHERE usuarios.id_usuario = %s """
         params = (user.id_usuario,)
         result = DatabaseConnection.fetch_all(query, params)
-        return result
+        if result is not None:
+            return result
+        else:
+            return None

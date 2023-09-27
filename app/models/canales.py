@@ -1,4 +1,4 @@
-from database import DatabaseConnection
+from ..database import DatabaseConnection
 
 class Channel:
     def __init__(self, id_canal = None, nombre = None, descripcion = None, servidor = None):
@@ -28,6 +28,6 @@ class Channel:
         """ Obtiene todos los canales de un servidor """
         
         query = """ SELECT nombre FROM servidor_app.canales WHERE servidor = %s """
-        params = (channel.servidor, )
+        params = (channel.servidor,)
         result = DatabaseConnection.fetch_all(query, params)
         return result
