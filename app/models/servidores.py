@@ -1,4 +1,4 @@
-from database import DatabaseConnection
+from ..database import DatabaseConnection
 
 class Server:
     def __init__(self, id_servidor = None, nombre = None, descripcion = None):

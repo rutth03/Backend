@@ -1,4 +1,4 @@
-from database import DatabaseConnection
+from ..database import DatabaseConnection
 
 class RelationUserServer:
     def __init__(self, usuario=None, servidor=None):

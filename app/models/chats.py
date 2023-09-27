@@ -1,4 +1,4 @@
-from database import DatabaseConnection
+from ..database import DatabaseConnection
 
 class Chats:
     def __init__(self, id_mensaje = None, mensaje = None, fecha = None, hora = None, usuario = None, canal = None):
