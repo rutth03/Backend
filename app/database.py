@@ -15,10 +15,6 @@ class DatabaseConnection:
         if cls._connection is None:
             cls._connection = mysql.connector.connect(**cls._credenciales)
         return cls._connection
-    
-    @classmethod
-    def set_config(cls, config):
-        cls._config = config
 
     @classmethod
     def execute_query(cls, query, params=None):
@@ -52,7 +48,7 @@ class DatabaseConnection:
         create_table_usuarios = """CREATE TABLE IF NOT EXISTS `usuarios` (
             `id_usuario` INT NOT NULL AUTO_INCREMENT,
             `email` VARCHAR(45) NOT NULL,
-            `constraseña` VARCHAR(45) NOT NULL,
+            `contraseña` VARCHAR(45) NOT NULL,
             `nombre` VARCHAR(45) NOT NULL,
             `apellido` VARCHAR(45)  NOT NULL,
             `loggin` VARCHAR(45) NOT NULL,
