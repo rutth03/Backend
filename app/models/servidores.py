@@ -15,9 +15,9 @@ class Server:
 
     @classmethod
     def create(cls, server):
-        """ Crea un nuevo servidor """
+        """ Crear un nuevo servidor """
 
-        query = """ INSERT INTO servidor_app.servidores (nombre, descripcion) VALUES (%s) """
+        query = """ INSERT INTO servidor_app.servidores (nombre, descripcion) VALUES (%s, %s) """
         params = (server.nombre, server.descripcion)
         DatabaseConnection.execute_query(query, params)
 
@@ -25,11 +25,15 @@ class Server:
     def search(cls, server):
         """ Buscador de servidores """
 
-        query = """ SELECT * FROM servidor_app_.servidores WHERE nombre = %s """
-        params = (server.nombre)
+        query = """ SELECT * FROM servidor_app.servidores WHERE nombre = %s """
+        params = (server.nombre,)
         result = DatabaseConnection.fetch_one(query, params)
-        return result
+        if result is None:
+            return False
+        else:
+            return True
     
+    @classmethod
     def get_all_server(cls):
         """ Obtiene todos los servidores existentes """
 
@@ -37,3 +41,20 @@ class Server:
         params = None
         result = DatabaseConnection.fetch_all(query, params)
         return result
+    
+    @classmethod
+    def delete(cls, server):
+        """ Eliminar servidor """
+
+        query = "DELETE FROM servidor_app.servidores WHERE id_servidor = %s"
+        params = (server.id_servidor,)
+        DatabaseConnection.execute_query(query, params)
+
+    @classmethod
+    def update(cls, server):
+        """ Modificar servidor """
+
+        query = "UPDATE servidor_app.servidores SET nombre = %s, descripcion = %s WHERE id_servidor = %s"
+        params = (server.nombre, server.descripcion, server.id_servidor)
+        DatabaseConnection.execute_query(query, params)
+    
