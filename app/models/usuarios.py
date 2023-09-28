@@ -39,7 +39,7 @@ class User:
 
         query = """UPDATE servidor_app.usuarios SET email=%s, contraseña=%s, nombre=%s,  apellido=%s,  loggin=%s, cumpleaños=%s 
         WHERE id_usuario = %s"""
-        params = (user.email, user.constraseña, user.nombre, user.apellido, user.loggin, user.cumpleaños, user.id_usuario)
+        params = (user.email, user.contraseña, user.nombre, user.apellido, user.loggin, user.cumpleaños, user.id_usuario)
         DatabaseConnection.execute_query(query, params)
 
     @classmethod

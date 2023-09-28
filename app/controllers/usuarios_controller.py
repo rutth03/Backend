@@ -34,6 +34,7 @@ class UserController:
     @classmethod
     def log_in(cls):
         """ Inicio de sesión """
+
         data = request.json
         data_email = data['email']
         data_contraseña = data['contraseña']
@@ -47,6 +48,7 @@ class UserController:
     @classmethod
     def create(cls):
         """ Registrar un nuevo usuario"""
+
         data = request.json
         data = UserController.validar_json_post(data)
         user = User(**data)
@@ -66,15 +68,25 @@ class UserController:
     def update(cls, user_id):
         """ Actualizar información de usuario """
         data = request.json
-        # if (not User.exists(User(id_usuario=user_id))):
-        #     raise FilmNotFound(f"No se encontró el usuario con id {user.id_usuario}")
+        # result= User.exists(User(id_usuario=user_id))
+        # if not result:
+        #     raise (f"No se encontró el usuario")
 
         data = UserController.validar_json_put(data)
         data['id_usuario'] = user_id
 
         user = User(**data)
-        User.update(user)
-        return {'message': 'Información actualizada con exito'}, 200
+
+        email_result = User.exist_email(user)
+        loggin_result = User.exist_loggin(user)
+        if not email_result:
+            if not loggin_result:
+                User.update(user)
+            else: 
+                return ("El nombre de usuario ya se encuentra utilizado")
+            return {'message': 'Información actualizada con exito'}, 200
+        else:
+            return ("el email ingresado ya se encuentra registrado")
 
     @classmethod
     def delete(cls, user_id):
