@@ -39,7 +39,7 @@ class ServerController:
 
         server = Server(id_servidor=server_id)
         Server.delete(server)
-        return {'message': 'Usuario eliminado con exito'}, 204
+        return {'message': 'Servidor eliminado con exito'}, 204
     
     @classmethod
     def update(cls, server_id):
