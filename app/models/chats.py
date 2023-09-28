@@ -23,7 +23,7 @@ class Chats:
     def get_all_messages(cls, chat):
         """ Obtiene todos los mensajes escritos dentro de un canal """
 
-        query = """ SELECT mensaje FROM servidor_app.chats WHERE canal = %s ORDER BY fecha, hora DESC """
+        query = """ SELECT mensaje FROM servidor_app.chats WHERE canal = %s ORDER BY fecha, hora ASC """
         params = (chat.canal,)
         result = DatabaseConnection.fetch_all(query, params)
         return result
@@ -32,7 +32,7 @@ class Chats:
     def new_message(cls, chat):
         """ Crea un nuevo mensaje """
 
-        query = """ INSERT INTO sevidor_app.chats (mensaje, fecha, hora, usuario, canal) VALUES (%s, %s, %s, %s, %s) """
+        query = """ INSERT INTO servidor_app.chats (mensaje, fecha, hora, usuario, canal) VALUES (%s, %s, %s, %s, %s) """
         params = (chat.mensaje, chat.fecha, chat.hora, chat.usuario, chat.canal)
         DatabaseConnection.execute_query(query, params)
 
@@ -40,6 +40,14 @@ class Chats:
     def delete_message(cls, chat):
         """ Borrar mensaje "escrito por el usuario """
 
-        query = """ DELETE * FROM servidor_app.chats WHERE id_mensaje=%s AND usuario=%s """
+        query = """ DELETE FROM servidor_app.chats WHERE id_mensaje=%s AND usuario=%s """
         params = (chat.id_mensaje, chat.usuario)
+        DatabaseConnection.execute_query(query, params)
+
+    @classmethod
+    def update_message(cls, chat):
+        """ Borrar mensaje "escrito por el usuario """
+
+        query = """ UPDATE servidor_app.chats SET mensaje = %s WHERE usuario = %s AND id_mensaje = %s """
+        params = (chat.mensaje, chat.usuario, chat.id_mensaje)
         DatabaseConnection.execute_query(query, params)
