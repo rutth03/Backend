@@ -51,13 +51,13 @@ class User:
         DatabaseConnection.execute_query(query, params)
 
     @classmethod
-    def exists(cls,user):
-        """ """
+    def exists(cls, user):
+        """ Verfifica si un usuario existe """
 
         query="SELECT id_usuario FROM servidor_app.usuarios WHERE id_usuario = %s"
         params = (user.id_usuario,)
-        resultado=DatabaseConnection.fetch_one(query,params=params)
-        if resultado is None:
+        result =DatabaseConnection.fetch_one(query,params=params)
+        if result is None:
             return False
         return True
 
@@ -101,7 +101,7 @@ class User:
     def get_user_info(cls, user):
         """ Obtiene la información de un usuario en especifico """
 
-        query = """ SELECT loggin, nombre, apellido, cumpleaños, foto_perfil FROM servidor_app.usuarios WHERE id_usuario = %s """
+        query = """ SELECT * FROM servidor_app.usuarios WHERE id_usuario = %s """
         params = (user.id_usuario,)
         result = DatabaseConnection.fetch_one(query, params)
         return result
@@ -110,7 +110,7 @@ class User:
     def get_all_servers_from_user(cls, user):
         """ Obtiene los servidores a los que se ha registrado un usuario """
 
-        query = """ SELECT servidores.nombre FROM servidor_app.servidores INNER JOIN servidor_app.usuarios_servidores ON servidores.id_servidor = usuarios_servidores.servidor 
+        query = """ SELECT servidores.id_servidor, servidores.nombre FROM servidor_app.servidores INNER JOIN servidor_app.usuarios_servidores ON servidores.id_servidor = usuarios_servidores.servidor 
         INNER JOIN servidor_app.usuarios ON usuarios.id_usuario = usuarios_servidores.usuario WHERE usuarios.id_usuario = %s """
         params = (user.id_usuario,)
         result = DatabaseConnection.fetch_all(query, params)

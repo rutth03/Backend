@@ -41,13 +41,13 @@ class UserController:
         user=User(email=data_email, contraseña=data_contraseña)
         result = User.verify_account(user)
         if result:
-            return ("Inicio de sesión con exito")
+            return {"Inicio de sesión con exito"},200
         else:
-            return ("El email o la contraseña son incorrectos")
-
+            return {"El email o la contraseña son incorrectos"},401
+        
     @classmethod
     def create(cls):
-        """ Registrar un nuevo usuario"""
+        """ Registrar un nuevo usuario """
 
         data = request.json
         data = UserController.validar_json_post(data)
@@ -67,6 +67,7 @@ class UserController:
     @classmethod
     def update(cls, user_id):
         """ Actualizar información de usuario """
+
         data = request.json
         # result= User.exists(User(id_usuario=user_id))
         # if not result:
@@ -82,15 +83,16 @@ class UserController:
         if not email_result:
             if not loggin_result:
                 User.update(user)
+                return {'message': 'Información actualizada con exito'}, 200
             else: 
                 return ("El nombre de usuario ya se encuentra utilizado")
-            return {'message': 'Información actualizada con exito'}, 200
         else:
             return ("el email ingresado ya se encuentra registrado")
 
     @classmethod
     def delete(cls, user_id):
         """ Eliminar usuario """
+
         user = User(id_usuario=user_id)
         # if (not User.exists(user)):
         #     raise FilmNotFound(f"No se encontró el usuario con id {user.id_usuario}")
@@ -110,4 +112,15 @@ class UserController:
             return servers
         else:
             return None
-    
+        
+    @classmethod
+    def get_info_user(cls, user_id):
+        """ Obtiene infomación de un usuario """
+
+        user = User(id_usuario=user_id)
+        result = User.exists(user)
+        object = []
+        if result:
+            info_object = User.get_user_info(user)
+            object.append(info_object)
+            return object
