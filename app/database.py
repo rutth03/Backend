@@ -75,7 +75,7 @@ class DatabaseConnection:
                 ON UPDATE CASCADE)
             ENGINE = InnoDB; """
         create_table_chats = """CREATE TABLE IF NOT EXISTS `chats` (
-            `id_mensaje` INT NOT NULL,
+            `id_mensaje` INT NOT NULL AUTO_INCREMENT,
             `mensaje` VARCHAR(250) NOT NULL,
             `fecha` DATE NOT NULL,
             `hora` TIME NOT NULL,
