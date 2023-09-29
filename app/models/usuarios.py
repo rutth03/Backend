@@ -89,13 +89,21 @@ class User:
     def verify_account(cls, user):
         """ Verificar que el email y la contraseña coinciden con un usuario registrado """
 
-        query = """ SELECT id_usuario FROM servidor_app.usuarios WHERE email = %s AND contraseña = %s """
-        params = (user.email, user.contraseña)
+        query = """ SELECT * FROM servidor_app.usuarios WHERE (email = %s OR loggin = %s)AND contraseña = %s """
+        params = (user.email, user.loggin, user.contraseña)
         result = DatabaseConnection.fetch_one(query, params)
         if result is not None:
-            return True
+            return User(
+                id_usuario = result[0],
+                email = result[1],
+                contraseña = result[2],
+                nombre = result[3],
+                apellido = result[4],
+                cumpleaños = str(result[5]),
+                loggin = result[6],
+                foto_perfil = result[7])
         else:
-            return False
+            return None
         
     @classmethod
     def get_user_info(cls, user):

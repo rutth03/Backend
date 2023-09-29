@@ -1,5 +1,5 @@
 from ..models.usuarios import User
-from flask import request
+from flask import request, session
 import datetime
 
 class UserController:
@@ -36,15 +36,24 @@ class UserController:
         """ Inicio de sesión """
 
         data = request.json
-        data_email = data['email']
-        data_contraseña = data['contraseña']
-        user=User(email=data_email, contraseña=data_contraseña)
-        result = User.verify_account(user)
-        if result:
-            return {"Inicio de sesión con exito"},200
+        data_email = data.get('email')
+        data_loggin = data.get('loggin')
+        data_contraseña = data.get('contraseña')
+        user=User(email=data_email, loggin=data_loggin, contraseña=data_contraseña)
+        usuario_registrado = User.verify_account(user)
+        if usuario_registrado is not None:
+            session['loggin'] = usuario_registrado.loggin
+            session['email'] = usuario_registrado.email
+            return {'message': 'Inicio de sesión con exito'},200
         else:
-            return {"El email o la contraseña son incorrectos"},401
+            return {'message':'El email o la contraseña son incorrectos'},401
         
+    @classmethod
+    def log_out(cls):
+        session.pop('nickname',None)
+        session.pop('email',None)
+        return {"message":"Sesión cerrada"},200    
+    
     @classmethod
     def create(cls):
         """ Registrar un nuevo usuario """
